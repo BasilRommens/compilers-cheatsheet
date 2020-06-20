@@ -1,0 +1,33 @@
+\documentclass[10pt,landscape,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[t1]{sourcesanspro}
+\usepackage[nosf]{kpfonts}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage[top=4mm,bottom=4mm,left=10mm,right=10mm]{geometry}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{microtype}
+
+\let\bar\overline
+
+\include{src/def}
+
+\begin{document}
+%\footnotesize
+\small
+\begin{multicols*}{5}
+        \input{src/introduction}
+        \input{src/top-down_parsing}
+        \input{src/scanning_parsing}
+        \input{src/mips}
+        \input{src/LLVM}
+        \input{src/good_code_generation}
+        \input{src/bottom-up_parsing}
+        \input{src/good_code_generation}
+        \input{src/type_checking_extra}
+\end{multicols*}
+\end{document}

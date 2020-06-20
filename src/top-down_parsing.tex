@@ -1,0 +1,39 @@
+\section{Top-down parsing and parser generators}
+\subsection*{LPDA}
+\begin{tikzpicture}[shorten >=1pt, node distance=2cm, auto,on grid]
+        \node[state] (q1) {$q_1$};
+        \node[state] (q2) [right=of q1] {$q_2$};
+        \node[state] (q1x) [below=of q1] {$q_1,x$};
+        \node[state] (q2a) [below=of q2] {$q_2,a$};
+        \node[state] (q2b) [below=of q2a] {$q_2,b$};
+        \node[state] (q2p) [below=of q2b] {$q_2,\epsilon$};
+        \node[state] (q1e) [right=of q2] {$q_1$};
+        \node[state] (q2e) [below=of q1e] {$q_2$};
+        \node[state] (q1y) [below=of q2e] {$q_1,y$};
+        \node[state] (q2y) [below=of q1y] {$q_2,y$};
+        \path[->]
+                (q1) edge node [above,midway,sloped] {$x:x,X/\gamma$} (q2)
+                (q1x) edge node [above,midway,sloped] {$x,X/\gamma$} (q2a)
+                (q1x) edge node [above,midway,sloped] {$x,X/\gamma$} (q2b)
+                (q1x) edge node [below,midway,sloped] {$x,X/\gamma$} (q2p)
+                (q1e) edge node [left] {$y:\epsilon,X/\gamma$} (q2e)
+                (q1y) edge node [left] {$\epsilon,X/\gamma$} (q2y);
+\end{tikzpicture}
+\subsection*{Prediction}
+\textbf{k-look-ahead PDA}: A k-LPDA is a tuple $(Q, \Sigma, \Gamma, \delta, q_0, Z_0, F)$ different: $\delta$ : $Q \times (\Sigma \cup \{\epsilon\}) \times \Gamma \times \Sigma^{\leqslant k} \rightarrow 2^{(q\times \Gamma^*)}$.\\
+\textbf{Configuration change LPDA}
+The LPDA can move from $(q,auv,X\beta)$ to $(Q',uv,\alpha\beta)$ if there is $(q',\alpha) \in \delta (q,a,X,au)$. $X \in \Gamma$; $a \in \Sigma \cup \{\epsilon\}$; $u \in \Sigma^{\leqslant k-1}$; $v \in \Sigma^*$; and if $|auv| \geqslant k$ then $|au| = k$, else $v = \epsilon$.\\
+\subsection*{First \& Follow}
+\textbf{First:} $First^k(\alpha)$ = $\{w \in T^*: \alpha \Rightarrow^* wx$ $\wedge$ $(|w| = k$ or $|w| < k \wedge x = \epsilon)\}$; \textbf{Follow:} $Follow^k(\alpha)$ $= \{ w \in T^* |$ $\exists \beta, \gamma: S \Rightarrow^* \beta\alpha\gamma$ $\wedge w \in First^k(\gamma)\}$. \textbf{First/First:} Intersecting First sets. \textbf{First/Follow:} First and Follow sets of variable intersect. \textbf{Solutions:} Left factoring First/First; Substitution First/Follow, introduces First/First; Left recursion removal.
+\subsection*{LL(k) grammar}
+A CFG is LL(K) iff for all pairs of derivations:\\
+$S \Rightarrow* wA\gamma \Rightarrow w\alpha_1\gamma \Rightarrow^* wx_1$\\
+$S \Rightarrow* wA\gamma \Rightarrow w\alpha_2\gamma \Rightarrow^* wx_2$\\
+with $w,x_1,x_2\in T^*$, $A \in V$, and $\gamma \in (V \cup T)^*$, if $First^k(x_1) = First^k(x_2)$ then $\alpha_1 = \alpha_2$\\
+\textbf{Strongly LL(K):} iff for all pairs of rules $A \rightarrow \alpha_1$ and $A \rightarrow \alpha_2$ with $\alpha_1 \neq \alpha_2$: $First^k(\alpha_1\cdot Follow^k(A))$$First^k(\alpha_2\cdot Follow^k(A))$$=\phi$. \textit{every strong LL(k) grammar is LL(k)}. There is a strict hierarchy.
+\subsection*{Recursive-descent parsers}
+Instead of pushing sentential forms into a stack, we can make recursive
+calls to functions handling nonterminals. Consider, e.g., a grammar with rules $S \rightarrow Ab$ and $S \rightarrow Bc$\ldots
+\subsection*{Attribute grammar}
+\textbf{S-attributed} no inherited attributes. \textbf{L-attributed} they allow the attributes to be evaluated in 1 DFS Left-to-right traversal of the derivation tree; $S-att \subseteq L-att$\\
+\textbf{L-attribute practice:} An attribute grammar is L-attributed if for all rules $A \rightarrow X_1...X_n$, for all inhertited attributes $\alpha$ of $X_j$ we have that the corresponding semantic rule depends only on: Attributes of $A \rightarrow X_1...X_n$ and inherited attributes of A.

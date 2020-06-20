@@ -1,0 +1,19 @@
+\section{Good code generation}
+\subsection*{Usage and liveness}
+\textbf{Usage:} Let i < j. The value of x computed at i is used at j. \textbf{Liveness:} Let $i < k$. If value of x computed at i is used at j then x is live at all $i \leqslant j < k$.\\
+\textbf{Algorithm:} Instructions block from last to first. $\forall$ instructions $i: x = y op z$: 1. Attach to instruction i the usage and liveness information of x, y, z. 2. Set x to not live and no next use. 3. Set y, z to live and the next uses of y, z to i.\\
+\textbf{Datastructure:} Contains additional information in the symbol table, for the algorithm. Or table per basic block. Usage and Liveness per instruction.
+\subsection*{Minimizing load and store}
+\textbf{Register descriptors:} Variable names whose current value is in a register (per register). \textbf{Address descriptors:} All locations where the current value of a variable is stored.\\ 
+\textbf{Algorithm:} $\forall$ instruction $i: x = y op z$ we do the following. 1. Select registers $R_x$, $R_y$, $R_z$ for the var using $getReg(x = y op z)$. 2. If y is not loaded in $R_y$ then issue instruction. 3. If z is not loaded in $R_z$ then issue instruction. 3. Issue instruction $R_x = R_y op R_z$ at end of block all marked live -> store instruction. Copy no machine-instruction output if $R_x == R_y$\\
+\textbf{Algorithm reg for operands:} $R_y$ can be chosen: 1. If y in reg r then $R_y = r$ 2. If y is not in reg but r is empty then $R_y = r$. 3. r is candidate: If all var descriptor says their value is in r also have another location then return r; If only var whose descriptor says value is in r is x and $x \notin \{y,z\}$ then return r; If all var not used ofeter instruction return r; Spill the vars into memory. \textbf{result reg:} reg holding r or those of x,y if not live hereafter.
+\subsection*{Peephole}
+Sliding window, replaces instructions. Optimizes: redundant-instructions; Flow-of-control; Algebraic; Machine idioms (auto-increments for addresses).
+\subsection*{Systematic spilling}
+Infinite registers generate its code; Construct a register-interference graph (=k-colouring of graph). Where nodes are registers, vertices are nodes alive together.
+\subsection*{Sethi-Ullmann}
+\textbf{equal-children:} recursively gen code right child base=b+1, result in $R_{b+k-1}$; do the same for left child with base b result in register one lower; result in $R_{b+k-1}$.\\
+\textbf{different-children (m<k):} big child same; result small child in $R_{b+m-1}$; Answer in big child register.\\
+\textbf{With spilling:} Big child chosen; Recursive, use b=1, result in $R_r$ then in memory; generating for small child; If label >r use base 1 else b=r-j. Recursive, result in $R_r$; Big child mem in $R_{r-1}$; compute in $R_r$
+\subsection*{Pipelining}
+1. Instruction fetch 2. Instruction decode and register fetch 3. Execute 4. Memory access 5. Register write back

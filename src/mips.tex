@@ -1,0 +1,9 @@
+\section{MIPS reference}
+\textbf{Arithmetic:} <op> \$d, \$s, \$t: <op> = [add(u)| and| nor| or| sub(u)| xor]; <op> \$s, \$t, i: <op> = [add((u)i)| andi| ori| xori]; <op> \$s, \$t: <op> = [div(u)| mult(u)] where result is in hi for div and mod in lo and result for mult in hi and lo;\\
+\textbf{Branch:} b[eq|ne] \$s, \$t, label; b[lez|gtz] \$s, label. \textbf{Jump:} j[al] label; j[al]r \$s\\
+\textbf{Load} l[b(u)|h(u)|w] \$t, i(\$s) \textbf{datamovement:} m[f|t][hi|lo] \$[d|t]
+\subsection*{call codes}
+\textbf{print} 1:int, 2:fl, 3:dbl, 4:str, 11:char; \textbf{read} same as before + 1; 10: exit
+\subsection*{stackframe}
+\textbf{building} sw \$fp, 0(\$sp); move \$fp, \$sp; subu \$sp, \$sp, <size> + 4; sw \$ra, -4(\$fp); sw <reg\_to\_store>, -offset(\$fp)\\
+\textbf{destructing} lw <reg\_to\_load>, -<size> + 4(\$fp); lw \$ra, -4(\$fp); move \$sp, \$fp; lw \$fp, 0(\$sp); j \$ra

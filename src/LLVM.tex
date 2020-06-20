@@ -1,0 +1,27 @@
+\section{LLVM Reference}
+\subsection*{Type}
+i\{1-32\}: int; float, double, fp128: float; <type>*: pointers
+\subsection*{Function}
+define <type> @<f\_name>(<type> \%<name>, ...) \{\\
+...instructions...\\
+\}\\
+call <type> @<f\_name>(<type0> <arg1>, ...)
+\subsection*{Labels}
+<label>:\\
+...instructions...\\
+br label \%<label>\\
+br i1 <cond>, label <true>, label <false>
+\subsection*{Comparisons}
+\{i,f\}cmp <policy> <type> <arg1>, <arg2>; i-policies: eq, neq, (u,s)gt, (u,s)lt, (u,s)le, (u,s)ge [u=unsigned, s=signed]; f-policies: oeq,ogt,ege,olt,ole,one,ord,ueq,ugt etc[o=ordered,u=unordered]
+\subsection*{Phi}
+phi <type> [<val0>, <label0>], ...: based on predecessor block
+\subsection*{Arithmetic}
+<op> <type> <arg1>, <arg2>: \{f\}add, \{f\}sub, \{f\}mul, \{u,s,f\}div, and, or, xor;\{f,s,u\}rem, ashl, lshr, ashr
+\subsection*{Load/Store}
+alloca <type>: allocate space on the stack, ret=ptr; store <val\_type> <val>, <ptr\_type> <ptr>, ret=void; load <val\_type>,<ptr\_type> <ptr>, ret=val
+\subsection*{Conversion/Cast}
+\{trunc, zext, sext, fptrunc, fpext\} <in\_type> <in> to <out\_type>: ret=out
+\subsection*{Arrays}
+type = [<size> $\times$ <type>]; alloca; getelementptr <arr\_elem\_type>, <arr\_type\_ptr>
+<ptr\_to\_array>, <idx\_type> 0, <idx\_type> <idx> (arrptr[0][idx] == arr[idx])
+\subsection*{Strictly dominates \& dominance frontier}
