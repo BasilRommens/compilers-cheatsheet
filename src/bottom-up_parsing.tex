@@ -11,15 +11,15 @@ Same CFSM for LR(0), SLR(K), LALR(k)
 \textbf{SLR(k)} 2.1. append ``and the look-ahead starts with a, c=a''. 2.2. Append "$A \rightarrow$ is the j-th rule, and the look=ahead l is in $Follow^k(A)$", lookahead combos from those sets become columns.
 \textbf{LALR(k)} same as SLR(k). But uses ItemFollow.\\
 \textbf{LALR(1) propagation graph $(V,E,l)$} V contains all state-item-pairs (s,u) st $u \in s$; E contains $(\langle s,u\rangle, \langle s,u\rangle)$ iff 1. t is the closure of the a-successor of s, $u = A \rightarrow \alpha_1 \cdotp a \alpha_2$, and v = $u = A \rightarrow \alpha_1 a \cdotp \alpha_2$. 2. $s = t$ and $u = A \rightarrow \alpha_1 \cdotp B \alpha_2$, $v = B \rightarrow \beta$, $\alpha_2$ can produce $\epsilon$; The labelling function $l: V \rightarrow 2^{\Sigma^{\leqslant 1}}$ is st: $l(\langle(s,B\rightarrow \cdotp \beta))$ = $\cup \{First^1(\alpha_2)$$| \langle s,A \rightarrow \alpha_1 \cdotp B \alpha_2\rangle$ $\in V\}$ and all other vertices are mapped to the empty set.\\
-\textbf{ItemFollow:} For a vertex v, $ItemFollow^1(v)$ is the set $\cup\{ l(u) | u\ has\ a\ path\ to\ v\}$ so this tells us whther we caqn apply reduction rul $A \rightarrow \beta$ from a CFSM state s based on the $ItemFollow^1(v)$ of $v = (s,A\rightarrow \beta \cdotp)$
-\subsection*{LR(k)-CFSM}
-\textbf{LR(k)-items:} $(A\rightarrow \alpha_1 \cdotp \alpha_2,w)$ where $w\in \Sigma^{\leqslant k}$\\
-\textbf{LR(k)-closure:} The closure of $(A\rightarrow \alpha_1 \cdotp \alpha_2,w)$ is the set of all LR(k)-items $(B \rightarrow \cdotp \beta,y)$ where: 1. $B \rightarrow \beta$ grammar rule 2. $y \in First^k(\alpha_2 w)$; It includes I and is minimal set.
-\textbf{CFSM states:} states of the CFSM are now subsets of LR(k)-items. The a-succeswsor of a state I, for $a \in T\cup V$, is the closure of the set $\{(A\rightarrow \alpha_1 a \cdotp \alpha_2,w)$ $|$ $\{(A\rightarrow \alpha_1 \cdotp a \alpha_2,w) \in I\}$
-\textbf{LR(k)-CFSM:} $q_0$ is the closure of $\{(A\rightarrow \alpha_1 a \cdotp \alpha_2,w)$ $|$ $(A\rightarrow \alpha_1 \cdotp a \alpha_2,w) \in I\}$
-\subsection*{Action tables}
-\textbf{LR(0)} Index grammar rules $1 \leqslant j \leqslant n$ and states from the CFSM $0 \leqslant i \leqslant k$ The table T maps each i to a set of actions: 1. $T(i)$ contains (a Reduce) j if state i has the item $A \rightarrow \alpha \cdotp$ with $A \rightarrow \alpha$ the j-th rule. 2. T(i) contains Shift if state i has an item $A \rightarrow \alpha_1 \cdotp \alpha_2$. 3. T(i) contains Accept if state i has an item $S \rightarrow \alpha \cdotp$. 4. $T(\phi)$ contains an error action only.\\
-\textbf{SLR} replace (a Reduce) by \textit{nothing}, replace \textit{Shift} by \textit{(a Shift) a} and prepend an a to $\alpha_2$\\
-\textbf{LR(k):} add and look-ahead l to a set of actions to the 1st line; change to on 1 to $A \rightarrow \alpha \cdotp , l)$; change to on line 2 $(A \rightarrow \alpha_1 \cdotp \alpha_2,y)$ and $l \in First^k(\alpha_2 y)$.
-\subsection*{Conclusions}
+	\textbf{ItemFollow:} For a vertex v, $ItemFollow^1(v)$ is the set $\cup\{ l(u) | u\ has\ a\ path\ to\ v\}$ so this tells us whther we caqn apply reduction rul $A \rightarrow \beta$ from a CFSM state s based on the $ItemFollow^1(v)$ of $v = (s,A\rightarrow \beta \cdotp)$
+	\subsection*{LR(k)-CFSM}
+	\textbf{LR(k)-items:} $(A\rightarrow \alpha_1 \cdotp \alpha_2,w)$ where $w\in \Sigma^{\leqslant k}$\\
+	\textbf{LR(k)-closure:} The closure of $(A\rightarrow \alpha_1 \cdotp \alpha_2,w)$ is the set of all LR(k)-items $(B \rightarrow \cdotp \beta,y)$ where: 1. $B \rightarrow \beta$ grammar rule 2. $y \in First^k(\alpha_2 w)$; It includes I and is minimal set.
+	\textbf{CFSM states:} states of the CFSM are now subsets of LR(k)-items. The a-succeswsor of a state I, for $a \in T\cup V$, is the closure of the set $\{(A\rightarrow \alpha_1 a \cdotp \alpha_2,w)$ $|$ $\{(A\rightarrow \alpha_1 \cdotp a \alpha_2,w) \in I\}$
+	\textbf{LR(k)-CFSM:} $q_0$ is the closure of $\{(A\rightarrow \alpha_1 a \cdotp \alpha_2,w)$ $|$ $(A\rightarrow \alpha_1 \cdotp a \alpha_2,w) \in I\}$
+	\subsection*{Action tables}
+	\textbf{LR(0)} Index grammar rules $1 \leqslant j \leqslant n$ and states from the CFSM $0 \leqslant i \leqslant k$ The table T maps each i to a set of actions: 1. $T(i)$ contains (a Reduce) j if state i has the item $A \rightarrow \alpha \cdotp$ with $A \rightarrow \alpha$ the j-th rule. 2. T(i) contains Shift if state i has an item $A \rightarrow \alpha_1 \cdotp \alpha_2$. 3. T(i) contains Accept if state i has an item $S \rightarrow \alpha \cdotp$. 4. $T(\phi)$ contains an error action only.\\
+	\textbf{SLR} replace (a Reduce) by \textit{nothing}, replace \textit{Shift} by \textit{(a Shift) a} and prepend an a to $\alpha_2$\\
+	\textbf{LR(k):} add and look-ahead l to a set of actions to the 1st line; change to on 1 to $A \rightarrow \alpha \cdotp , l)$; change to on line 2 $(A \rightarrow \alpha_1 \cdotp \alpha_2,y)$ and $l \in First^k(\alpha_2 y)$.
+	\subsection*{Conclusions}
 $\forall k \geqslant 1$, the LR(k) languages, LR(1) languages, and languages recognizable by DPDA are all the same. (\textbf{Most} languages use LALR(1) grammar)
